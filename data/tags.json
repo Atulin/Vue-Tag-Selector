@@ -1,0 +1,68 @@
+[
+    {
+        "id": 0,
+        "namespace": "fruits",
+        "name": "apple",
+        "color": "#00ff00"
+    },
+    {
+        "id": 1,
+        "namespace": "fruits",
+        "name": "peach",
+        "color": "#00ff00"
+    },
+    {
+        "id": 2,
+        "namespace": "fruits",
+        "name": "lemon",
+        "color": "#00ff00"
+    },
+    {
+        "id": 3,
+        "namespace": "fruits",
+        "name": "dragonfruit",
+        "color": "#00ff00"
+    },
+    {
+        "id": 4,
+        "namespace": "vegetables",
+        "name": "carrot",
+        "color": "#ffdd00"
+    },
+    {
+        "id": 5,
+        "namespace": "vegetables",
+        "name": "cabbage",
+        "color": "#ffdd00"
+    },
+    {
+        "id": 6,
+        "namespace": "vegetables",
+        "name": "celery",
+        "color": "#ffdd00"
+    },
+    {
+        "id": 7,
+        "namespace": "vegetables",
+        "name": "beetroot",
+        "color": "#ffdd00"
+    },
+    {
+        "id": 8,
+        "namespace": "drinks",
+        "name": "fizzy watter",
+        "color": "#0022ff"
+    },
+    {
+        "id": 9,
+        "namespace": "drinks",
+        "name": "pepsi",
+        "color": "#0022ff"
+    },
+    {
+        "id": 10,
+        "namespace": "drinks",
+        "name": "apple juice",
+        "color": "#0022ff"
+    }
+]
