@@ -19,7 +19,6 @@
     "sass": "^1.26.10"
   },
   "scripts": {
-    "sync": "browser-sync start --server --files \"./**\" --ss \"./\"",
     "build": "npx gulp all"
   },
   "dependencies": {

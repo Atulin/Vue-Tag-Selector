@@ -9,7 +9,9 @@ Vue.component('tag-search', {
         return {
             options: [],
             selected: [],
-            search: ''
+            search: '',
+            highlighted: null,
+            focused: false
         }
     },
     computed: {
@@ -19,7 +21,7 @@ Vue.component('tag-search', {
                        x.name.toLowerCase().includes(this.search.toLowerCase())
                     || x.namespace.toLowerCase().includes(this.search.toLowerCase())
                 )
-                && !this.selected.includes(x)
+                && !this.selected.some(i => i.id === x.id)
                 && this.search.length > 0
             })
         }
@@ -33,8 +35,27 @@ Vue.component('tag-search', {
                     }
                     break;
                 case 'ArrowUp':
+                    if (this.highlighted !== null) e.preventDefault();
+                    if (this.highlighted > 0) {
+                        this.highlighted--;
+                    } else {
+                        this.highlighted = null;
+                    }
                     break;
                 case 'ArrowDown':
+                    if (this.highlighted !== null) e.preventDefault();
+                    if (this.highlighted === null) {
+                        this.highlighted = 0;
+                    } else if (this.highlighted < this.filtered.length - 1) {
+                        this.highlighted++;
+                    }
+                    break;
+                case ' ':
+                case 'Enter':
+                    if (this.highlighted !== null) {
+                        e.preventDefault();
+                        this.selected.pushUnique(JSON.parse(JSON.stringify(this.filtered[this.highlighted])));
+                    }
                     break;
                 default:
                     break;
@@ -50,6 +71,7 @@ Vue.component('tag-search', {
     },
     template: `
     <div class="tag-select">
+    
         <select class="output" name="tags" id="tags" multiple>
             <option v-for="s in selected" :value="s.id">{{s.name}}</option>
         </select>
@@ -59,11 +81,16 @@ Vue.component('tag-search', {
             <input type="text" 
                    v-model="search" 
                    v-on:keydown="handleInputKeys"
+                   v-on:focusin="focused = true"
+                   v-on:focusout="focused = false"
                    placeholder="Search...">
         </div>
     
-        <div class="options">
-            <div class="option" v-for="t in filtered" v-on:click="selected.pushUnique(t)">
+        <div class="options" v-if="focused">
+            <div v-for="(t, idx) in filtered" 
+                 class="option" 
+                 :class="highlighted === idx ? 'hl' : null"
+                 v-on:click="selected.pushUnique(t)">
               <span class="ns">{{t.namespace}}:</span>
               <span class="name">{{t.name}}</span>
               <div class="bg" :style="{backgroundColor: t.color}"></div>

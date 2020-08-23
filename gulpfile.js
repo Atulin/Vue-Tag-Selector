@@ -6,6 +6,7 @@ const rename = require("gulp-rename");
 const sourcemaps = require("gulp-sourcemaps");
 const Fiber = require('fibers');
 const yaml = require('gulp-yaml');
+const bs = require('browser-sync').create();
 
 // CSS processors
 const autoprefixer = require('autoprefixer');
@@ -56,7 +57,7 @@ gulp.task('js', () => {
         .pipe(sourcemaps.init())
         .pipe(terser({ mangle: { toplevel: true } }))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(dir.js.dist));
+        .pipe(gulp.dest(dir.js.dist))
 });
 
 gulp.task('watch:js', () => gulp.watch(`${dir.js.src}/*.js`, gulp.series('js')));
@@ -70,7 +71,7 @@ gulp.task('ts', () => {
         .pipe(rename({ suffix: '.min' }))
         .pipe(terser({ mangle: { toplevel: true } }))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(dir.js.dist));
+        .pipe(gulp.dest(dir.js.dist))
 });
 
 gulp.task('watch:ts', () => gulp.watch(`${dir.js.src}/*.ts`, gulp.series('ts')))
@@ -85,6 +86,19 @@ gulp.task('data', () => {
 });
 
 gulp.task('watch:data', () => gulp.watch('./data/*.yml', gulp.series('data')))
+
+// Serve
+gulp.task('serve', function () {
+    bs.init({
+        server: './',
+        port: 4001,
+        ui: {
+            port: 4000
+        }
+    });
+
+    gulp.watch(['*.html', './dist/**/*.css', './dist/**/*.js']).on('change', bs.reload);
+});
 
 // All tasks
 gulp.task('all', gulp.parallel(['css', 'js', 'ts']));
